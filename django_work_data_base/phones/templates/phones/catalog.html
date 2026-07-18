@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Каталог телефонов</title>
+</head>
+<body>
+<h1>Каталог телефонов</h1>
+
+<div>
+  <span>Сортировка:</span>
+
+  <a href="{% url 'catalog' %}?sort=name">
+    по названию
+  </a>
+
+  <a href="{% url 'catalog' %}?sort=min_price">
+    сначала дешевые
+  </a>
+
+  <a href="{% url 'catalog' %}?sort=max_price">
+    сначала дорогие
+  </a>
+</div>
+
+<hr>
+
+{% for phone in phones %}
+<div>
+  <h2>
+    <a href="{% url 'phone_detail' phone.slug %}">
+      {{ phone.name }}
+    </a>
+  </h2>
+
+  <p>Цена: {{ phone.price }}</p>
+
+  <img src="{{ phone.image }}" alt="{{ phone.name }}" width="200">
+
+  <p>Дата выхода: {{ phone.release_date }}</p>
+
+  <p>
+    LTE:
+    {% if phone.lte_exists %}
+    есть
+    {% else %}
+    нет
+    {% endif %}
+  </p>
+</div>
+
+<hr>
+{% empty %}
+<p>Телефоны не найдены.</p>
+{% endfor %}
+</body>
+</html>
